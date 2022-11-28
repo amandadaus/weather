@@ -48,8 +48,8 @@ function App() {
 
   const displayRadioButtons = items.map((item) =>
     <div>
-      <input type="radio" checked={item.value === location} value={item.value} onChange={(e) => setLocation(e.target.value)}/>
-      <label>{item.label}</label>
+      <input title="location-selection" type="radio" checked={item.value === location} value={item.value} onChange={(e) => setLocation(e.target.value)}/>
+      <label aria-label={`${item.label}`}>{item.label}</label>
     </div>
   )
 
