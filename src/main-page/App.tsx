@@ -30,25 +30,49 @@ function App() {
   const [location, setLocation] = useState("");
   const [keyword, setKeyword] = useState("");
   const [response, setResponse] = useState<any>();
+  const [isLoading, setLoading] = useState(false);
+  const [noResults, setNoResults] = useState(false);
 
   const submitForm = async (e: any) => {
+    setLoading(true);
     e.preventDefault();
 
     fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=5000&keyword=${keyword}&key=AIzaSyDIb6tuC5IBX5yf8pYBMs_hLkZicqDHZ9k`)
     .then(res => res.json())
     .then(
       (result) => {
+        if(result.status === "ZERO_RESULTS"){
+          setLoading(false);
+          setNoResults(true);
+        }
+        setLoading(false);
         setResponse(result.results);
       },
       (error) => {
+        setLoading(false);
+        setNoResults(true)
         console.log(error);
       }
     )
   }
 
+  const DisplayErrorMessage = () => {
+    return (
+      <div>No results found.</div>
+    )
+  }
+
+  const LoadingSpinner = () => {
+    return (
+      <div className="spinner-container">
+        <div aria-label="loading icon" className="loading-spinner"></div>
+      </div>
+    )
+  };
+
   const displayRadioButtons = items.map((item) =>
     <div>
-      <input title="location-selection" type="radio" checked={item.value === location} value={item.value} onChange={(e) => setLocation(e.target.value)}/>
+      <input aria-label="location radio button" title="location-selection" type="radio" checked={item.value === location} value={item.value} onChange={(e) => setLocation(e.target.value)}/>
       <label aria-label={`${item.label}`}>{item.label}</label>
     </div>
   )
@@ -89,10 +113,12 @@ function App() {
             </div>
             <div className="search-box">
               <input aria-placeholder='Enter Activity' aria-label="Enter Activity" value={keyword} placeholder='Enter Activity' onChange={(e) => setKeyword(e.target.value)} />
-              <button onKeyDown={() => handleEvent} className="search" onClick={submitForm} type="submit">Search</button>
+              <button aria-label='Search Button' disabled={isLoading} onKeyDown={() => handleEvent} className="search" onClick={submitForm} type="submit">Search</button>
             </div>
           </form>
-          <DisplayResults />
+          {/* {isLoading ? <LoadingSpinner /> : <DisplayResults />} */}
+          {noResults ? <DisplayErrorMessage /> : 
+              isLoading ? <LoadingSpinner /> : <DisplayResults />}
         </div>
       </div>
 
