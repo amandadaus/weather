@@ -107,16 +107,16 @@ function App() {
         <header>Nearby Places Search</header>
         <div>
           <form aria-label="Search Nearby Places" className="search-form">
-            <label aria-label="Select a location">Selection a location:</label>
+            <label aria-label="Select a location">1. Selection a location:</label>
             <div className="radio-buttons">
               {displayRadioButtons}
             </div>
+            <label>2. Enter an activity:</label>
             <div className="search-box">
               <input aria-placeholder='Enter Activity' aria-label="Enter Activity" value={keyword} placeholder='Enter Activity' onChange={(e) => setKeyword(e.target.value)} />
               <button aria-label='Search Button' disabled={isLoading} onKeyDown={() => handleEvent} className="search" onClick={submitForm} type="submit">Search</button>
             </div>
           </form>
-          {/* {isLoading ? <LoadingSpinner /> : <DisplayResults />} */}
           {noResults ? <DisplayErrorMessage /> : 
               isLoading ? <LoadingSpinner /> : <DisplayResults />}
         </div>

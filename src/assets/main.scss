@@ -11,6 +11,9 @@
         .radio-buttons{
             padding: 10px;
         }
+        .search-box {
+          padding: 10px;
+        }
     };
 
     header {
@@ -22,7 +25,24 @@
     button {
          margin: 5px 5px 5px 5px;
          height: 21.5px;
+         background-color: #4681f4;
+         color: white;
+         border-width: 0px;
+         border-radius: 4px;
+
+         &:disabled {
+          background-color: gray;
+          opacity: 0.8;
+         }
+
+         &:hover {
+          background-color: #105ef9;
+         }
     }
+
+  //   button:disabled {
+  //     background-color: gray;
+  // }
 
     .locations {
         display: flex;
